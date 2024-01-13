@@ -10,8 +10,14 @@ readme = "README.md"
 python = "^3.11"
 elasticsearch = "^8.11.1"
 openai = "^1.7.0"
+google-cloud-documentai = "^2.21.1"
+google-cloud-translate = "^3.14.0"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.per-file-ignores]
+# Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
+"__init__.py" = ["E402", "F401"]
