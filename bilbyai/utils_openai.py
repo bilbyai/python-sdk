@@ -29,8 +29,12 @@ def openai_summarize(
     text: str,
     model: str = "gpt-4",
     api_key: str | None = None,
+    client: OpenAI | None = None,
 ) -> str:
-    openai_client = OpenAI(api_key=(api_key or os.environ.get("OPENAI_API_KEY")))
+    if not client:
+        openai_client = OpenAI(api_key=(api_key or os.environ.get("OPENAI_API_KEY")))
+    else:
+        openai_client = client
 
     messages = generate_openai_boilerplate()
 
