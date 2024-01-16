@@ -1,4 +1,4 @@
-# bilby-python-sdk
+# python-sdk
 
 A collection of Python functions that will be useful for researching and developing with the Bilby API.
 
