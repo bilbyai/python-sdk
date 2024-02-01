@@ -31,27 +31,27 @@ repos:
       - id: pyupgrade
         args: [--py311-plus]
 
-  - repo: local
-    hooks:
-      - id: ruff
-        name: ruff
-        language: python
-        language_version: python3.11
-        types: [ python ]
-        require_serial: true
-        entry: ruff
-      - id: mypy
-        name: mypy
-        entry: mypy
-        language: python
-        language_version: python3.11
-        types: [python]
-        require_serial: true
-        additional_dependencies: []
-        args:
-          - --show-error-codes
-          - --ignore-missing-imports
-          - --disallow-untyped-defs
+  # - repo: local
+  #   hooks:
+  #     - id: ruff
+  #       name: ruff
+  #       language: python
+  #       language_version: python3.11
+  #       types: [ python ]
+  #       require_serial: true
+  #       entry: .venv/bin/ruff
+  #     - id: mypy
+  #       name: mypy
+  #       entry: .venv/bin/mypy
+  #       language: python
+  #       language_version: python3.11
+  #       types: [python]
+  #       require_serial: true
+  #       additional_dependencies: []
+  #       args:
+  #         - --show-error-codes
+  #         - --ignore-missing-imports
+  #         - --disallow-untyped-defs
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:

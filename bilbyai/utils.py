@@ -1,5 +1,9 @@
+import os
+from pathlib import Path
+
 from google.cloud import documentai_v1beta3 as documentai
 from google.cloud import translate_v2 as translate
+from pypdf import PdfReader, PdfWriter
 
 
 def documentai_process_document(
@@ -92,3 +96,55 @@ def google_translate_text(text: str, target_language: str) -> str:
 
     # Return the translated text
     return result["translatedText"]
+
+
+def split_pdf(file: str, out_dir: str, split_pages: int) -> None:
+    """Split a PDF file into multiple PDF files.
+
+    Usage: `split_pdf("path/to/file.pdf", "path/to/output/", 3)`
+
+    Args:
+        `file` (str): The path to the PDF file.
+        `out` (str): The path to the output folder.
+        `num_pages` (int): The number of pages to split the PDF file into.
+    """
+    # Create a PDF reader object
+    pdf_reader = PdfReader(file)
+
+    # Get the number of pages in the PDF file
+    total_pages = len(pdf_reader.pages)
+
+    # if the total number of pages is less than the number of pages to split
+    if total_pages <= split_pages:
+        # no need to split the PDF file, just copy the file
+        PdfWriter(os.path.join(out_dir, os.path.basename(file))).write(pdf_reader)
+        return
+
+    start_page = 0
+
+    while True:
+        # if the start page is greater than the total number of pages
+        if start_page >= total_pages:
+            # break out of the loop
+            break
+
+        # get the end page
+        end_page = min(start_page + split_pages, total_pages)
+
+        # create a PDF writer object
+        pdf_writer = PdfWriter()
+
+        # add the pages to the PDF writer object
+        for page in pdf_reader.pages[start_page:end_page]:
+            pdf_writer.add_page(page)
+
+        # write the PDF file
+        pdf_writer.write(
+            os.path.join(
+                out_dir,
+                Path(os.path.basename(file)).stem + f"({start_page}-{end_page}).pdf",
+            )
+        )
+
+        # increment the start page
+        start_page = end_page + 1
