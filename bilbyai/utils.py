@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 
 from google.cloud import documentai_v1beta3 as documentai
@@ -117,7 +118,7 @@ def split_pdf(file: str, out_dir: str, split_pages: int) -> None:
     # if the total number of pages is less than the number of pages to split
     if total_pages <= split_pages:
         # no need to split the PDF file, just copy the file
-        PdfWriter(os.path.join(out_dir, os.path.basename(file))).write(pdf_reader)
+        shutil.copy(file, os.path.join(out_dir, os.path.basename(file)))
         return
 
     start_page = 0
